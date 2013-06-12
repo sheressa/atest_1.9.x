@@ -6,9 +6,20 @@
  */
 ini_set('display_errors', 'On');
 error_reporting(-1);
-chdir('../');
-define('PHPWS_SOURCE_DIR', getcwd() . '/');
-define('PHPWS_SOURCE_HTTP', './');
+
+
+if (!defined('PHPWS_SOURCE_DIR')) {
+    define('PHPWS_SOURCE_DIR',
+            $_SERVER['DOCUMENT_ROOT'] . str_replace('/setup/index.php', '',
+                    $_SERVER['PHP_SELF'] . '/'));
+}
+chdir(PHPWS_SOURCE_DIR);
+
+if (!defined('PHPWS_SOURCE_HTTP')) {
+    define('PHPWS_SOURCE_HTTP',
+            'http://' . $_SERVER['HTTP_HOST'] . str_replace('/setup/index.php',
+                    '', $_SERVER['PHP_SELF'] . '/'));
+}
 
 define('SETUP_USER_ERROR', -1);
 define('SITE_HASH', 'x');
@@ -24,7 +35,6 @@ set_exception_handler(array('Error', 'exceptionHandler'));
 
 try {
     $setup = new Setup;
-    $setup->initialize();
     $setup->processCommand();
 } catch (\Exception $e) {
     if ($e->getCode() == SETUP_USER_ERROR) {
