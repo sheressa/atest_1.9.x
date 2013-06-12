@@ -1,0 +1,39 @@
+/*
+    Document   : style
+    Created on : Jun 4, 2013, 10:01:23 AM
+    Author     : matt
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body {
+    padding : 2em 2em;
+}
+
+.container {
+    margin : 1em 1em;
+    text-align : center;
+}
+
+.form-input {
+    padding : 5px;
+}
+
+label.error {
+    color : red;
+    display : inline-block;
+    margin : 0px 0px 6px 4px;
+}
+
+label.radio-label {
+    display : inline;
+    margin-right : 1em;
+}
+
+input[type="radio"] {
+    margin : 0px 3px;
+}
+
+input:required {
+    border : 1px solid red;
+}
