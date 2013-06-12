@@ -29,7 +29,7 @@ class Install {
             case 'prompt':
                 $this->setup->setTitle(t('New installation'));
                 $this->setup->setContent('<p>You do not have a config/core/config.php file. This must be a new installation.</p>
-                    <a href="index.php?command=install&op=config_form" class="btn-large btn-primary">Install phpWebSite</a>');
+                    <p style="padding:8px"><a href="index.php?command=install&op=config_form" class="btn-large btn-primary">Install phpWebSite</a></p>');
                 break;
 
             case 'config_form':
@@ -58,7 +58,7 @@ class Install {
         $request = Server::getCurrentRequest();
 
         $this->dsn->setDatabaseType($request->getVar('database_type'));
-        $this->dsn->setDatabaseName($request->getVar('database_name'));
+        //$this->dsn->setDatabaseName($request->getVar('database_name'));
         $this->dsn->setUsername($request->getVar('database_user'));
         if ($request->isVar('database_password', true)) {
             $this->dsn->setPassword($request->getVar('database_password'));
@@ -105,13 +105,14 @@ class Install {
 
         $types[$this->dsn->getDatabaseType()->__toString()]->setSelection(true);
 
-        $form->addTextField('database_name', $request->getVar('database_name', ''))->setRequired();
+        //$form->addTextField('database_name', $request->getVar('database_name', ''))->setRequired();
         $form->addTextField('database_user')->setRequired();
         $form->addPassword('database_password');
         $form->addTextField('database_host');
         $form->addTextField('database_port');
         $form->addTextField('table_prefix');
         $form->addSubmit('save', t('Create database file'));
+        $this->setup->addJavascriptFile('install/database.js');
         $this->setup->setTitle(t('Create your database configuration file'));
         $this->setup->setContent($form->printTemplate('setup/templates/forms/dbconfig.html'));
     }

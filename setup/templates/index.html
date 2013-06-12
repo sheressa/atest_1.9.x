@@ -21,11 +21,12 @@
             <?=$toolbar?>
         </div>
         <?php endif; ?>
-        <div class="">
-            <h2><?=isset($title)?$title:null?></h2>
+        <h2><?=isset($title)?$title:null?></h2>
+        <div class="well">
             <?=$content?>
         </div>
-        <script src="http://code.jquery.com/jquery.js"></script>
+        <?=$javascript?>
+        
         <script src="templates/bootstrap/js/bootstrap.min.js"></script>
         <script src="javascript/validate/jquery.validate.min.js"></script>
         <script>$('#database-config').validate();</script>

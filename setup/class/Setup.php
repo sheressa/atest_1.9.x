@@ -5,6 +5,8 @@
  * @author Matthew McNaney <mcnaney at gmail dot com>
  * @license http://opensource.org/licenses/lgpl-3.0.html
  */
+define('SETUP_JQUERY', 'jquery-2.0.2.min.js');
+
 class Setup {
 
     private $page_title;
@@ -13,10 +15,12 @@ class Setup {
     private $toolbar;
     private $title;
     private $install;
+    private $javascript_file;
 
-    public function initialize()
+    public function __construct()
     {
         Session::start();
+        $this->javascript_file[] = '<script src="' . PHPWS_SOURCE_HTTP . 'setup/javascript/' . SETUP_JQUERY . '"></script>';
     }
 
     public function display()
@@ -36,12 +40,25 @@ class Setup {
             $variables['page_title'] = t('phpWebSite Setup');
         }
 
+        $variables['javascript'] = $this->getJavascriptFile();
         echo new Template($variables, 'setup/templates/index.html');
     }
 
     public function isAdminLoggedIn()
     {
         return isset(Session::singleton()->admin_logged_in);
+    }
+
+    public function addJavascriptFile($javascript)
+    {
+        $this->javascript_file[] = '<script src="' . PHPWS_SOURCE_HTTP . 'setup/javascript/' . $javascript . '"></script>';
+    }
+
+    private function getJavascriptFile()
+    {
+        if (!empty($this->javascript_file)) {
+            return implode("\n", $this->javascript_file);
+        }
     }
 
     public function login()
