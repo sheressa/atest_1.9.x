@@ -71,7 +71,10 @@ class Install {
     private function DBLogin()
     {
         try {
+            // First post the values, see if they are legit
             $this->postDSNValues();
+
+            // Next try and connect to the database.
             $db = \Database::newDB($this->dsn);
 
         } catch (\Exception $e) {
