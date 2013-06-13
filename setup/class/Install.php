@@ -23,6 +23,10 @@ class Install {
     public function get()
     {
         $request = Server::getCurrentRequest();
+
+        if ($request->isVar('js') && $request->isAjax()) {
+        }
+
         $op = $request->isVar('op') ? $request->getVar('op') : 'prompt';
 
         switch ($op) {
@@ -42,15 +46,39 @@ class Install {
     public function post()
     {
         $request = Server::getCurrentRequest();
+
+        if ($request->isVar('js') && $request->isAjax()) {
+            switch ($request->getVar('js')) {
+                case 'dblogin':
+                    $json = $this->DBLogin();
+                    break;
+
+                default:
+                    $json['error'] = 'Command not known';
+            }
+            echo json_encode($json);
+            exit();
+        }
+
         if (!$request->isVar('op')) {
             throw new Exception(t('Missing post operation'));
         }
 
         switch ($request->getVar('op')) {
-            case 'post_config':
-                $this->postConfig();
-                break;
+
         }
+    }
+
+    private function DBLogin()
+    {
+        try {
+            $this->postDSNValues();
+            $db = \Database::newDB($this->dsn);
+
+        } catch (\Exception $e) {
+            $json['error'] = t('Could not log in because: %s', $e->getMessage());
+        }
+        return $json;
     }
 
     private function postDSNValues()
@@ -71,20 +99,6 @@ class Install {
         }
     }
 
-    private function postConfig()
-    {
-        try {
-            $this->postDSNValues();
-        } catch (Exception $exc) {
-            $this->setup->setMessage(t('One or more of your configuration settings is incorrect.'));
-        }
-
-        try {
-            $db = \Database::newDB($this->dsn);
-        } catch (Exception $exc) {
-
-        }
-    }
 
     private function getForm()
     {
@@ -110,13 +124,13 @@ class Install {
         $form->addPassword('database_password');
         $form->addTextField('database_host');
         $form->addTextField('database_port');
-        $form->addTextField('table_prefix');
-        $form->addSubmit('save', t('Create database file'));
+        $form->addSubmit('save', t('Login in to database'));
+
+        $this->setup->addJavascriptFile('validate/jquery.validate.min.js');
         $this->setup->addJavascriptFile('install/database.js');
         $this->setup->setTitle(t('Create your database configuration file'));
         $this->setup->setContent($form->printTemplate('setup/templates/forms/dbconfig.html'));
     }
 
 }
-
 ?>
