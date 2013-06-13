@@ -4,7 +4,10 @@ $(document).ready(function() {
 
 function submit_db()
 {
+    dbtype = $('input[name="database_type"]:checked').val();
+
     $.post('index.php?sec=install&js=dblogin', {
+        database_type: dbtype,
         database_user: $('#database-user').val(),
         database_password: $('#database-password').val(),
         database_host: $('#database-host').val(),
@@ -12,7 +15,7 @@ function submit_db()
     }, function(data) {
         if (data.error != '') {
             $('#message-body').html(data.error);
-            $('.alert').show();
+            $('.alert').slideDown();
             console.log(data.error);
         } else {
             console.log(data.content);

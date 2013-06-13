@@ -8,7 +8,6 @@
 class Install {
 
     /**
-     *
      * @var Setup
      */
     private $setup;
