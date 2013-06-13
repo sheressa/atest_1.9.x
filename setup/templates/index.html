@@ -11,10 +11,8 @@
         <link href="templates/style.css" rel="stylesheet" media="screen">
     </head>
     <body>
-        <?php if (!empty($message)): ?>
-        <div class="alert alert-error">  <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Warning!</strong> <?=$message?></div>
-        <?php endif; ?>
+        <div class="alert alert-error" style="<?php if(!isset($message)){echo 'display:none';}?>">  <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <span id="message-body"><?=isset($message) ? $message : null;?></span></div>
 
         <?php if (!empty($toolbar)): ?>
         <div class="container">
@@ -26,9 +24,7 @@
             <?=$content?>
         </div>
         <?=$javascript?>
-        
+
         <script src="templates/bootstrap/js/bootstrap.min.js"></script>
-        <script src="javascript/validate/jquery.validate.min.js"></script>
-        <script>$('#database-config').validate();</script>
     </body>
 </html>
