@@ -24,6 +24,7 @@ class Install {
         $request = Server::getCurrentRequest();
 
         if ($request->isVar('js') && $request->isAjax()) {
+
         }
 
         $op = $request->isVar('op') ? $request->getVar('op') : 'prompt';
@@ -76,7 +77,6 @@ class Install {
 
             // Next try and connect to the database.
             $db = \Database::newDB($this->dsn);
-
         } catch (\Exception $e) {
             $json['error'] = t('Could not log in because: %s', $e->getMessage());
         }
@@ -90,17 +90,12 @@ class Install {
         $this->dsn->setDatabaseType($request->getVar('database_type'));
         //$this->dsn->setDatabaseName($request->getVar('database_name'));
         $this->dsn->setUsername($request->getVar('database_user'));
-        if ($request->isVar('database_password', true)) {
-            $this->dsn->setPassword($request->getVar('database_password'));
-        }
-        if ($request->isVar('database_host', true)) {
-            $this->dsn->setHost($request->getVar('database_host'));
-        }
-        if ($request->isVar('database_port', true)) {
+        $this->dsn->setPassword($request->getVar('database_password'));
+        $this->dsn->setHost($request->getVar('database_host'));
+        if (!$request->isEmpty('database_port')) {
             $this->dsn->setPort($request->getVar('database_port'));
         }
     }
-
 
     private function getForm()
     {
@@ -135,4 +130,5 @@ class Install {
     }
 
 }
+
 ?>
