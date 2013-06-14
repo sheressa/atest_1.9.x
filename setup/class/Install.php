@@ -77,6 +77,8 @@ class Install {
 
             // Next try and connect to the database.
             $db = \Database::newDB($this->dsn);
+
+            $json['content'] = 'So far so good';
         } catch (\Exception $e) {
             $json['error'] = t('Could not log in because: %s', $e->getMessage());
         }

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    $('#database-config').submit(function(){$('alert').hide();});
     $('#database-config').validate({submitHandler: function(){submit_db()}});
 });
 
@@ -13,7 +14,7 @@ function submit_db()
         database_host: $('#database-host').val(),
         database_port: $('#database-port').val()
     }, function(data) {
-        if (data.error != '') {
+        if (data.error !== undefined) {
             $('#message-body').html(data.error);
             $('.alert').slideDown();
             console.log(data.error);
