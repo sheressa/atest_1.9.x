@@ -77,7 +77,7 @@ class Install {
 
             // Next try and connect to the database.
             $db = \Database::newDB($this->dsn);
-            $json = $this->tableSelectionForm($db);
+            $json['content'] = $this->tableSelectionForm($db);
 
             //$json['content'] = 'So far so good';
         } catch (\Exception $e) {
@@ -88,8 +88,22 @@ class Install {
 
     private function tableSelectionForm(Database\DB $db)
     {
-        $json['content'] = var_export($tables, true);
-        return $json;
+        $databases = $db->listDatabases();
+
+        if (!empty($databases)) {
+            foreach ($databases as $db_name) {
+                $dblist[] = '<li><a href="javascript:void()" data="' . $db_name . '">' . $db_name . '</a></li>';
+            }
+        }
+        $tpl['database_list'] = '<ul>' . implode("\n", $dblist) . '</ul>';
+        /*
+          $form = new \Form;
+          $form->addText('database_name');
+          $form->addButton('go', t('Go'));
+          $tpl['form'] = $form->__toString();
+         */
+        $template = new \Template($tpl, 'setup/templates/forms/choose_db.html');
+        return $template->get();
     }
 
     private function postDSNValues()

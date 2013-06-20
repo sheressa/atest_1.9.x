@@ -19,7 +19,7 @@ function submit_db()
             $('.alert').slideDown();
             console.log(data.error);
         } else {
-            console.log(data.content);
+            $('#content-data').html(data.content);
         }
     }, 'json');
     return false;
