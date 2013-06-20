@@ -95,13 +95,14 @@ class Install {
                 $dblist[] = '<li><a href="javascript:void()" data="' . $db_name . '">' . $db_name . '</a></li>';
             }
         }
-        $tpl['database_list'] = '<ul>' . implode("\n", $dblist) . '</ul>';
-        /*
-          $form = new \Form;
-          $form->addText('database_name');
-          $form->addButton('go', t('Go'));
-          $tpl['form'] = $form->__toString();
-         */
+        $tpl['database_list'] = '<ul class="no-bullet">' . implode("\n", $dblist) . '</ul>';
+
+        $form = new \Form;
+        $form->addTextfield('database_name');
+        $form->addButton('go', t('Create new'));
+        $tpl = array_merge($tpl, $form->getInputStringArray());
+
+
         $template = new \Template($tpl, 'setup/templates/forms/choose_db.html');
         return $template->get();
     }
@@ -139,7 +140,6 @@ class Install {
 
         $types[$this->dsn->getDatabaseType()->__toString()]->setSelection(true);
 
-        //$form->addTextField('database_name', $request->getVar('database_name', ''))->setRequired();
         $form->addTextField('database_user')->setRequired();
         $form->addPassword('database_password');
         $form->addTextField('database_host');

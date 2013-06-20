@@ -1,2 +1,13 @@
+<style>
+    ul.no-bullet {
+      list-style-type: none;
+    }
+    input[type="button"] {
+        margin-bottom : 10px;
+    }
+</style>
 <h4><?=t('Create a new database (recommended) or pick an existing database below.')?></h4>
+<?=$form_start?>
+<?=$database_name?> <?=$go?>
+<?=$form_end ?>
 <?=$database_list?>

@@ -41,8 +41,6 @@ try {
     if ($e->getCode() == SETUP_USER_ERROR) {
         $setup->setMessage($e->getMessage());
     } else {
-        //echo json_encode(array('error'=>$e->getMessage()));
-        //exit();
         throw $e;
     }
 }

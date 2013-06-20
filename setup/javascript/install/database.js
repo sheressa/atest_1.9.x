@@ -14,6 +14,7 @@ function submit_db()
         database_host: $('#database-host').val(),
         database_port: $('#database-port').val()
     }, function(data) {
+        console.log(data);
         if (data.error !== undefined) {
             $('#message-body').html(data.error);
             $('.alert').slideDown();
@@ -22,5 +23,6 @@ function submit_db()
             $('#content-data').html(data.content);
         }
     }, 'json');
+    //});
     return false;
 }
