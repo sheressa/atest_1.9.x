@@ -31,6 +31,7 @@ require_once 'core/conf/defines.php';
 require_once 'Global/Functions.php';
 require_once 'setup/class/Setup.php';
 
+set_error_handler(array('Error', 'errorHandler'));
 set_exception_handler(array('Error', 'exceptionHandler'));
 
 try {
@@ -40,6 +41,8 @@ try {
     if ($e->getCode() == SETUP_USER_ERROR) {
         $setup->setMessage($e->getMessage());
     } else {
+        //echo json_encode(array('error'=>$e->getMessage()));
+        //exit();
         throw $e;
     }
 }

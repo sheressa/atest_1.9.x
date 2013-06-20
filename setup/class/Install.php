@@ -77,11 +77,18 @@ class Install {
 
             // Next try and connect to the database.
             $db = \Database::newDB($this->dsn);
+            $json = $this->tableSelectionForm($db);
 
-            $json['content'] = 'So far so good';
+            //$json['content'] = 'So far so good';
         } catch (\Exception $e) {
             $json['error'] = t('Could not log in because: %s', $e->getMessage());
         }
+        return $json;
+    }
+
+    private function tableSelectionForm(Database\DB $db)
+    {
+        $json['content'] = var_export($tables, true);
         return $json;
     }
 
